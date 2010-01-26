@@ -25,7 +25,10 @@ sub indices {
 }
 
 sub sqlt_deploy_hook {
-  my ($self, $table) = @_;
+  my $self = shift;
+  my ($table) = @_;
+
+  $self->next::method(@_) if $self->next::can;
 
   my $indexes = $self->_dbicx_indexing;
   for my $name (keys %$indexes) {
