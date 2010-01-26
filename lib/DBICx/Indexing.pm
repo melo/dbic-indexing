@@ -34,7 +34,7 @@ sub sqlt_deploy_hook {
   for my $name (keys %$indexes) {
     my $cols = $indexes->{$name};
 
-    next unless _has_cover_index($table, $cols);
+    next if _has_cover_index($table, $cols);
 
     $table->add_index(name => $name, fields => $cols);
   }

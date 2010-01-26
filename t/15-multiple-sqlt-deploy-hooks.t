@@ -18,8 +18,8 @@ isa_ok($schema, 'SQL::Translator::Schema');
 my %idx =
   map { $_->name => [$_->fields] } $schema->get_table('table')->get_indices;
 
-cmp_deeply([keys %idx], bag(qw(ix idx1 idx4)));
-cmp_deeply($idx{idx1}, ["a"]);
-cmp_deeply($idx{idx4}, ["e", "f"]);
+cmp_deeply([keys %idx], bag(qw(ix idx2 idx3)));
+cmp_deeply($idx{idx2}, ['a', 'c']);
+cmp_deeply($idx{idx3}, ['d', 'a']);
 
 done_testing();
