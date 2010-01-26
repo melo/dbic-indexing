@@ -24,4 +24,26 @@ sub indexes {
   return $class->_dbicx_indexing;
 }
 
+sub _has_cover_index {
+  my ($table, $cols) = @_;
+
+  my @idxs;
+  push @idxs, map { [$_->fields] } $table->get_indices;
+  push @idxs, map { [$_->field_names] } $table->unique_constraints;
+  push @idxs, [$table->primary_key->field_names];
+
+IDXS: for my $flst (@idxs) {
+    for my $c (@$cols) {
+      next IDXS unless @$flst;
+      next IDXS unless $flst->[0] eq $c;
+
+      shift @$flst;
+    }
+
+    return 1;
+  }
+
+  return 0;
+}
+
 1;
