@@ -6,7 +6,7 @@ use base qw/DBIx::Class/;
 
 __PACKAGE__->mk_classdata('_dbicx_indexing');
 
-sub indexes {
+sub indices {
   my $class = shift;
 
   if (@_) {
