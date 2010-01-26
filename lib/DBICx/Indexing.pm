@@ -24,6 +24,19 @@ sub indices {
   return $class->_dbicx_indexing;
 }
 
+sub sqlt_deploy_hook {
+  my ($self, $table) = @_;
+
+  my $indexes = $self->_dbicx_indexing;
+  for my $name (keys %$indexes) {
+    my $cols = $indexes->{$name};
+
+    next unless _has_cover_index($table, $cols);
+
+    $table->add_index(name => $name, fields => $cols);
+  }
+}
+
 sub _has_cover_index {
   my ($table, $cols) = @_;
 
